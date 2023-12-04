@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Результаты парсинга{% endblock %}
+
+{% block content %}
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <h1>Результаты парсинга</h1>
+                {% if category %}
+                    <p>Категория: {{ category }}</p>
+                {% endif %}
+                {% if parsed_data %}
+                <ul>
+                    {% for data in parsed_data %}
+                        <li>
+                            <strong>Артикул:</strong> {{ data.article }}<br>
+                            <strong>Наименование:</strong> {{ data.name }}<br>
+                            <strong>Рейтинг:</strong> {{ data.rating }}<br>
+                            <strong>Количество отзывов:</strong> {{ data.review_count }}<br>
+                            <strong>Цена:</strong> {{ data.price }}<br>
+                            <strong>Ссылка на магазин:</strong> <a href="{{ product.url }}">Ссылка</a><br><br>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            </div>
+{% endblock %}
