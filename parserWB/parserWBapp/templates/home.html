@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+        <title>Главная страница</title>
+{% endblock %}
+
+{% block content %}
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                    {% for item in posts %}
+                    <div class="post-preview">
+                        <a href="{% url 'parsing:posts' id=item.id %}">
+                            <h2 class="post-title">{{item.name}}</h2>
+                            <h3 class="post-subtitle">{{item.category}}</h3>
+                        </a>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    {% endfor %}
+                    <hr class="my-4" />
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-outline-primary btn-lg" href="{% url 'parsing:parse_form' %}">Перейти к форме для парсинга</a></div>
+                </div>
+            </div>
+{% endblock %}
