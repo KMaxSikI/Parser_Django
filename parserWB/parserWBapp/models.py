@@ -2,11 +2,19 @@ from django.db import models
 
 
 # Create your models here.
+class TimeStamp(models.Model):
+    name = models.CharField(max_length=255, unique=True)
 
-class Product(models.Model):
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.name
+
+
+class Product(TimeStamp):
     category = models.CharField(max_length=100)
     article = models.CharField(max_length=50, unique=True)
-    name = models.CharField(max_length=255)
     rating = models.FloatField()
     review_count = models.IntegerField()
     price = models.CharField(max_length=50)
@@ -16,22 +24,19 @@ class Product(models.Model):
         return self.name
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+class Category(TimeStamp):
 
     def __str__(self):
         return self.name
 
 
-class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+class Tag(TimeStamp):
 
     def __str__(self):
         return self.name
 
 
-class Post(models.Model):
-    name = models.CharField(max_length=32, unique=True)
+class Post(TimeStamp):
     text = models.TextField()
     create = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)

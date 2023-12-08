@@ -4,8 +4,9 @@ from parserWBapp import views
 app_name = 'parserWBapp'
 
 urlpatterns = [
-    path('', views.home, name='home'),  # Главная страница
-    path('parse/', views.parse_form, name='parse_form'),  # Страница с формой для парсинга
-    path('parse/results/', views.parse_results, name='parse_results'),  # Страница с результатами парсинга
-    path('posts/<int:id>/', views.posts, name='posts'),  # Страница с постами
+    path('', views.HomeListView.as_view(), name='home'),
+    path('parse/', views.ParseFormView.as_view(), name='parse_form'),
+    path('parse/results/', views.ParseResultsView.as_view(), name='parse_results'),
+    path('posts/<int:pk>/', views.PostDetailView.as_view(), name='posts'),
+    path('create/', views.PostCreateView.as_view(), name='create'),
 ]
