@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Написать пост{% endblock %}
+
+{% block content %}
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <h1>Есть что сказать, напиши!</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {# form.as_ul #}
+                {% for field in form %}
+                <div class="mb-2">
+                    {{field.label_tag}}
+                {% for error in field.errors %}
+                    {{error}}
+                {% endfor %}
+                {{field}}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-outline-primary">Сохранить</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

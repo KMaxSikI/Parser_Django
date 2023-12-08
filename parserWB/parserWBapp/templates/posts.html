@@ -1,5 +1,3 @@
-
-
 {% extends "base.html" %}
 
 {% block title %}
@@ -12,7 +10,9 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <img src="{{post.image.url}}" width="800" height="600">
-                        <p>{{post.text}}</p>
+                        <p></p>
+                        <h2 class="post-title">{{ object.name }}</h2>
+                        <p>{{ object.text }}</p>
                     </div>
                     <div class="d-flex justify-content-end mb-4"><a class="btn btn-outline-primary btn-sm" href="{% url 'parsing:home' %}">Вернуться на главную</a></div>
                 </div>
