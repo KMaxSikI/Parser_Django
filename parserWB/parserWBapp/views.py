@@ -1,8 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import Post, Product
-from .forms import ParsForm, PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, FormView
 from django.urls import reverse, reverse_lazy
+
+from .models import Post, Product
+from .forms import ParsForm, PostForm
 
 import requests
 import locale
@@ -18,14 +20,18 @@ class PostDetailView(DetailView):
     template_name = 'posts.html'
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     success_url = reverse_lazy('parsing:home')
     template_name = 'create.html'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class ParseFormView(FormView):
+
+class ParseFormView(LoginRequiredMixin, FormView):
     template_name = 'parse_form.html'
     form_class = ParsForm
     success_url = reverse_lazy('myapp:parse_results')
@@ -69,7 +75,7 @@ class ParseFormView(FormView):
         return f"{url}?category={kwargs.get('category', '')}"
 
 
-class ParseResultsView(ListView):
+class ParseResultsView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'parse_results.html'
     context_object_name = 'parsed_data'

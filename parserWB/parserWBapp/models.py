@@ -1,4 +1,5 @@
 from django.db import models
+from userapp.models import ParserUser
 
 
 # Create your models here.
@@ -43,6 +44,7 @@ class Post(TimeStamp):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag)
     image = models.ImageField(upload_to='posts', null=True, blank=True)
+    user = models.ForeignKey(ParserUser, on_delete=models.CASCADE)
 
 
     def __str__(self):
