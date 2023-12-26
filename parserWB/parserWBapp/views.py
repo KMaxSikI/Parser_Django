@@ -34,7 +34,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class ParseFormView(LoginRequiredMixin, FormView):
     template_name = 'parse_form.html'
     form_class = ParsForm
-    success_url = reverse_lazy('myapp:parse_results')
+    success_url = reverse_lazy('parsing:parse_results')
 
     def perform_parse(self, category):
         url = f'https://search.wb.ru/exactmatch/ru/common/v4/search?TestGroup=pk2_alpha05&TestID=351&appType=1&curr=rub&dest=-1257786&' \
@@ -53,17 +53,27 @@ class ParseFormView(LoginRequiredMixin, FormView):
         Url_product = [f'https://www.wildberries.ru/catalog/{u}/detail.aspx?targetUrl=XS' for u in Id_product]
 
         for i, n, r, f, c, u in zip(Id_product, Name, Raiting, Feedback, Cost, Url_product):
-            product, created = Product.objects.get_or_create(
-                article=i,
-                defaults={
-                    'category': category,
-                    'name': n,
-                    'rating': r,
-                    'review_count': f,
-                    'price': f'{c} руб.',
-                    'url': u
-                }
-            )
+            existing_product = Product.objects.filter(name=n).first()
+
+            if existing_product:
+                # Обновляем существующий объект, если он уже существует
+                existing_product.category = category
+                existing_product.rating = r
+                existing_product.review_count = f
+                existing_product.price = f'{c} руб.'
+                existing_product.url = u
+                existing_product.save()
+            else:
+                # Создаем новый объект, если объект с таким именем не существует
+                product = Product.objects.create(
+                    article=i,
+                    category=category,
+                    name=n,
+                    rating=r,
+                    review_count=f,
+                    price=f'{c} руб.',
+                    url=u
+                )
 
     def form_valid(self, form):
         category = form.cleaned_data['category']
