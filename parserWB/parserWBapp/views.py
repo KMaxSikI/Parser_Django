@@ -13,6 +13,7 @@ import locale
 class HomeListView(ListView):
     model = Post
     template_name = 'home.html'
+    paginate_by = 2
 
 
 class PostDetailView(DetailView):
@@ -89,6 +90,7 @@ class ParseResultsView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'parse_results.html'
     context_object_name = 'parsed_data'
+    paginate_by = 70
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
