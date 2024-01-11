@@ -15,6 +15,9 @@ class HomeListView(ListView):
     template_name = 'home.html'
     paginate_by = 2
 
+    def get_queryset(self):
+        return Post.objects.select_related('category').all()
+
 
 class PostDetailView(DetailView):
     model = Post
